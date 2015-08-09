@@ -1,4 +1,5 @@
 require 'pry'
+require 'tempfile'
 class Song
   # code goes here
 attr_writer :title, :artist
@@ -8,9 +9,10 @@ attr_writer :title, :artist
   end
 
   def serialize
-    artist_name = File.new(@artist.name.downcase.gsub(" ", "_"), "w")
-    binding.pry
-    
+    file = Tempfile.new([@title.downcase.gsub(" ", "_"), ".txt"], "tmp")
+    file.write("#{@artist.name} - #{@title}")
+    file.read
+    file.close
   end
 
   def artist 
